@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple MapKit JS Example</title>
+    <style>
+        #map {
+            width: 100%;
+            height: 400px; /* You can adjust the size as needed */
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
+    <script>
+        // Initialize MapKit JS
+        mapkit.init({
+            authorizationCallback: function(done) {
+                done('eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlZGVFpNRDY2NUIifQ.eyJpc3MiOiIyTjRNM0ZXUEg3IiwiaWF0IjoxNjk5NDk2NTUwLCJleHAiOjE3MDIwODgyNzUsIm9yaWdpbiI6Imh0dHBzOi8vdG90b2IxMi5jb20vbWFwcyJ9.fHajtPgqa8rL9rUCvb5JQbnOA5X0XA1qyJ4-le70dz7FFfOnZGhhK9gYwpFToYjIGFkJuKOrLGDjV7DHumGK1g');
+            }
+        });
+
+        // Create a map
+        var map = new mapkit.Map("map");
+
+        // Optionally, you can set the map's center and zoom level
+        map.region = new mapkit.CoordinateRegion(
+            new mapkit.Coordinate(37.7749, -122.4194), // Example: San Francisco coordinates
+            new mapkit.CoordinateSpan(0.167647972, 0.354985255)
+        );
+    </script>
+</body>
+</html>
