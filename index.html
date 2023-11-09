@@ -36,11 +36,7 @@ body, html {
     const tokenID = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlZGVFpNRDY2NUIifQ.eyJpc3MiOiIyTjRNM0ZXUEg3IiwiaWF0IjoxNjk5NDk2NzEwLCJleHAiOjE3MDIwODgyNzUsIm9yaWdpbiI6Imh0dHBzOi8vdG90b2IxMi5jb20ifQ.lJpJ6xyIHb00PANUwQj-w8NzP9OYfP9Mwumtu8DQQPZgmOivqcfRQTCxzBWeFR0zDcSYfsFSE2fms8KEICoNRg";
 
     if (!window.mapkit || window.mapkit.loadedLibraries.length === 0) {
-        // mapkit.core.js or the libraries are not loaded yet.
-        // Set up the callback and wait for it to be called.
         await new Promise(resolve => { window.initMapKit = resolve });
-
-        // Clean up
         delete window.initMapKit;
     }
 
@@ -51,6 +47,30 @@ body, html {
     });
 
     const map = new mapkit.Map("map");
+
+    // Check if geolocation is available
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+            // User's location
+            const { latitude, longitude } = position.coords;
+
+            // Center the map on the user's location
+            map.setCenterAnimated(new mapkit.Coordinate(latitude, longitude));
+
+            // Add a marker for the user's location
+            const annotation = new mapkit.MarkerAnnotation(new mapkit.Coordinate(latitude, longitude), {
+                color: "#00aaff", // You can customize the color
+                title: "Your Location"
+            });
+            map.addAnnotation(annotation);
+
+        }, error => {
+            console.error("Error getting location: ", error);
+        });
+    } else {
+        console.error("Geolocation is not supported by this browser.");
+    }
+
 })();
 
 </script>
