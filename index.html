@@ -1,35 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apple MapKit JS Example</title>
-    <style>
-        #map {
-            width: 100%;
-            height: 400px; /* You can adjust the size as needed */
-        }
-    </style>
+<meta charset="utf-8">
+
+<script
+  src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.core.js"
+  crossorigin async
+  data-callback="initMapKit"
+  data-libraries="map"
+  data-initial-token="eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlZGVFpNRDY2NUIifQ.eyJpc3MiOiIyTjRNM0ZXUEg3IiwiaWF0IjoxNjk5NDk2NTUwLCJleHAiOjE3MDIwODgyNzUsIm9yaWdpbiI6Imh0dHBzOi8vdG90b2IxMi5jb20vbWFwcyJ9.fHajtPgqa8rL9rUCvb5JQbnOA5X0XA1qyJ4-le70dz7FFfOnZGhhK9gYwpFToYjIGFkJuKOrLGDjV7DHumGK1g"
+></script>
+
+<style>
+#map {
+    width: 100%;
+    height: 600px;
+}
+</style>
+
 </head>
+
 <body>
-    <div id="map"></div>
-    <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
-    <script>
-        // Initialize MapKit JS
-        mapkit.init({
-            authorizationCallback: function(done) {
-                done('eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlZGVFpNRDY2NUIifQ.eyJpc3MiOiIyTjRNM0ZXUEg3IiwiaWF0IjoxNjk5NDk2NTUwLCJleHAiOjE3MDIwODgyNzUsIm9yaWdpbiI6Imh0dHBzOi8vdG90b2IxMi5jb20vbWFwcyJ9.fHajtPgqa8rL9rUCvb5JQbnOA5X0XA1qyJ4-le70dz7FFfOnZGhhK9gYwpFToYjIGFkJuKOrLGDjV7DHumGK1g');
-            }
-        });
+<div id="map"></div>
 
-        // Create a map
-        var map = new mapkit.Map("map");
+<script type="module">
 
-        // Optionally, you can set the map's center and zoom level
-        map.region = new mapkit.CoordinateRegion(
-            new mapkit.Coordinate(37.7749, -122.4194), // Example: San Francisco coordinates
-            new mapkit.CoordinateSpan(0.167647972, 0.354985255)
-        );
-    </script>
+(async () => {
+    const tokenID = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlZGVFpNRDY2NUIifQ.eyJpc3MiOiIyTjRNM0ZXUEg3IiwiaWF0IjoxNjk5NDk2NTUwLCJleHAiOjE3MDIwODgyNzUsIm9yaWdpbiI6Imh0dHBzOi8vdG90b2IxMi5jb20vbWFwcyJ9.fHajtPgqa8rL9rUCvb5JQbnOA5X0XA1qyJ4-le70dz7FFfOnZGhhK9gYwpFToYjIGFkJuKOrLGDjV7DHumGK1g";
+
+    if (!window.mapkit || window.mapkit.loadedLibraries.length === 0) {
+        // mapkit.core.js or the libraries are not loaded yet.
+        // Set up the callback and wait for it to be called.
+        await new Promise(resolve => { window.initMapKit = resolve });
+
+        // Clean up
+        delete window.initMapKit;
+    }
+
+    mapkit.init({
+        authorizationCallback: function(done) {
+            done(tokenID);
+        }
+    });
+
+    const map = new mapkit.Map("map");
+})();
+
+</script>
 </body>
 </html>
